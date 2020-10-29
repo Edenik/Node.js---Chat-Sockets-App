@@ -5,20 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Chat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
 
+
+    <script>
+        var socket = io();
+        function setUser(){
+            socket.emit('setUser', document.getElementById('username').value);
+        }
+
+        socket.on('UserExist' , (data) => {
+            document.getElementById('container').innerHTML = `${data}`;
+        })
+
+        socket.on('UserWelcome' , (data) => {
+            document.getElementById('container').innerHTML = "<h1> welcome </h1>";
+        })
+    </script>
 
 </head>
 
 <body>
     <h1>Chat App!</h1>
 
+    <label > First Name:
+        <input type="text" name="name" id="username" />
+    </label>
+ 
+    <button onclick="setUser()"> Go To Chat! </button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
-
-
-        <script>
-            var io = io();
-        </script>
+    <div id="container"></div>
 </body>
 
 </html>
