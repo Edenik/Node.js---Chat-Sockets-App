@@ -19,8 +19,13 @@ socketIo.on('connection', (socket) => {
         } 
         else {
             users.push(user);
-            socket.emit("UserWelcome" , `Welcome ${user}`);
+            socket.emit("UserWelcome" , {name :user, msg: `welcome ${user}`});
+            socketIo.sockets.emit('newMsg' ,  {message: 'New user connected', user: user});
         }
+    })
+
+    socket.on('msg' , (data) =>  {
+        socketIo.sockets.emit('newMsg' ,  data)
     })
 })
 http.listen(3000);
